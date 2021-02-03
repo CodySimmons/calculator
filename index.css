@@ -1,5 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=VT323&display=swap");
+
 body {
-  background-color: #0d1117;
+  background-image: linear-gradient(
+    45deg,
+    #0d1117 25%,
+    #232224 25%,
+    #232224 50%,
+    #0d1117 50%,
+    #0d1117 75%,
+    #232224 75%,
+    #232224 100%
+  );
+  background-size: 39.6px 39.6px;
+  font-family: "JetBrains Mono", monospace;
   display: grid;
   grid-template-areas:
     "main"
@@ -19,8 +32,12 @@ main {
 .calculator-container-outer {
   border-radius: 24px;
   background-color: white;
-  padding: 5px;
+  padding: 10px;
+  padding-bottom: 50px;
   border: 10px;
+  box-shadow: 3px 30px 5px 11px rgba(0, 0, 0, 0.45);
+  -webkit-box-shadow: 3px 30px 5px 11px rgba(0, 0, 0, 0.45);
+  -moz-box-shadow: 3px 30px 5px 11px rgba(0, 0, 0, 0.45);
 }
 h1 {
   text-align: center;
@@ -28,12 +45,16 @@ h1 {
   font-size: 50px;
   margin: 15px;
 }
+strong {
+  font-weight: 200;
+}
 
 .calculator-container {
   display: grid;
   background: linear-gradient(darkblue, darkblue, lightblue);
-  border: 5px;
-  padding: 7px;
+  border: 5px solid grey;
+
+  padding: 25px;
   border-radius: 18px;
   width: 500px;
   height: auto;
@@ -46,11 +67,39 @@ h1 {
     "calc-fifth-row"; */
 }
 
-#calculator-screen {
+.calculator-screen {
   margin: 10px;
   background-color: grey;
-  width: auto;
+  background-size: 5px 5px;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  width: 480px;
   height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  font-family: "VT323", monospace;
+  box-shadow: -6px -3px 5px 0px rgba(0, 0, 0, 0.34) inset;
+  -webkit-box-shadow: -6px -3px 5px 0px rgba(0, 0, 0, 0.34) inset;
+  -moz-box-shadow: -6px -3px 5px 0px rgba(0, 0, 0, 0.34) inset;
+}
+
+#input-history {
+  text-align: right;
+  font-size: 24px;
+  align-self: flex-start;
+  flex: 0 1 auto;
+  margin-top: 4px;
+}
+#input-numbers {
+  flex: 1 1 auto;
+  align-self: flex-end;
+  font-size: 75px;
 }
 .calc-buttons-div {
   display: flex;
@@ -64,6 +113,13 @@ h1 {
   margin: 5px;
   border-radius: 12px;
   font-size: 64px;
+  font-weight: bold;
+  outline: none;
+  background-color: rgb(118, 134, 120);
+  background-image: url(./images/noisy.png);
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.76);
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.76);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.76);
 }
 
 .first-column-button {
@@ -86,4 +142,5 @@ footer {
   position: absolute;
   width: 100%;
   bottom: 0;
+  color: white;
 }
