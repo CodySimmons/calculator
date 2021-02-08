@@ -1,7 +1,8 @@
 const calcButtons = document.querySelectorAll(".calculator-button");
 const display = document.querySelector("#input-numbers");
-var displayNumber = "";
-var displayHistory = "";
+const inputHistoryDisplay = document.querySelector("#input-history");
+var inputNumber = "";
+var inputHistory = "";
 var currentOperation = {
   firstNumber: "",
   secondNumber: "",
@@ -11,114 +12,89 @@ var currentOperation = {
 function inputRecorder(input) {
   button = this.id;
   if (this.classList.contains("operator-button")) {
-    console.log("Hi!");
+    if (button === "negative-button") {
+      if (
+        inputNumber === 0 ||
+        inputNumber === "" ||
+        (inputNumber.toString().length >= 16 && inputNumber > 0)
+      ) {
+        window.alert("Unable to perform action!");
+      }
+      inputNumber = inputNumber * -1;
+      display.textContent = inputNumber;
+    } else if (button === "decimal-button") {
+    } else if (button === "clear-button") {
+    } else if (button === "all-clear-button") {
+    } else {
+      currentOperation.secondNumber = parseFloat(inputNumber);
+      if (button !== "equal-button") {
+        currentOperation.operator = this.id;
+
+        inputHistory =
+          inputHistory + currentOperation.secondNumber + this.textContent;
+        inputHistoryDisplay.textContent = inputHistory;
+      }
+
+      currentOperation.firstNumber = operateExecution();
+      console.log(currentOperation.firstNumber);
+      inputNumber = "";
+      display.textContent = currentOperation.firstNumber;
+    }
   } else {
-    displayNumber = displayNumber + button;
+    if (inputNumber.toString().length >= 16) {
+      window.alert("Too many numbers! Use an operator or clear the screen!");
+    } else {
+      inputNumber = inputNumber + button;
+    }
+    display.textContent = inputNumber;
   }
-
-  // switch (button) {
-  //   //numbers
-  //   case "one-button":
-  //     console.log(this.textContent);
-  //     displayNumber = displayNumber + "1";
-  //     break;
-  //   case "two-button":
-  //     displayNumber = displayNumber + "2";
-  //     break;
-  //   case "three-button":
-  //     displayNumber = displayNumber + "3";
-  //     break;
-  //   case "four-button":
-  //     displayNumber = displayNumber + "4";
-  //     break;
-  //   case "five-button":
-  //     displayNumber = displayNumber + "5";
-  //     break;
-  //   case "six-button":
-  //     displayNumber = displayNumber + "6";
-  //     break;
-  //   case "seven-button":
-  //     displayNumber = displayNumber + "7";
-  //     break;
-  //   case "eight-button":
-  //     displayNumber = displayNumber + "8";
-  //     break;
-  //   case "nine-button":
-  //     displayNumber = displayNumber + "9";
-  //     break;
-  //   //operators
-  //   case "divide-button":
-  //     displayNumber = displayNumber + "/";
-  //     break;
-  //   case "multiply-button":
-  //     displayNumber = displayNumber + "X";
-  //     break;
-  //   case "minus-button":
-  //     displayNumber = displayNumber + "-";
-  //     break;
-  //   case "decimal-button":
-  //     displayNumber = displayNumber + ".";
-  //     break;
-  //   case "negative-button":
-  //     if (displayNumber === 0 || displayNumber === "") {
-  //       break;
-  //     }
-  //     displayNumber = displayNumber * -1;
-  //     break;
-  //   case "add-button":
-  //     break;
-  //   case "clear-button":
-  //     displayNumber = "";
-  //     break;
-  //   case "all-clear-button":
-  //     displayNumber = "";
-  //     break;
-  //   // case "equal-button":
-  //   //   displayNumber = "";
-  //   //   break;
-  //   default:
-  //     break;
-  // }
-  console.log(displayNumber);
-  display.textContent = displayNumber;
+  console.log(inputNumber);
 }
 
-function add(array) {
-  return array[0] + array[1];
-}
-
-function subtract(array) {
-  return array[0] - array[1];
-}
-function multiply(array) {
-  return array[0] * array[1];
-}
-
-function divide(array) {
-  if (array[1] === 0) {
-    return "Error - Cannot divide by 0";
+function operateExecution() {
+  if (currentOperation.firstNumber !== "") {
+    switch (currentOperation.operator) {
+      case "add-button":
+        return add();
+        break;
+      case "minus-button":
+        return subtract();
+        break;
+      case "multiply-button":
+        return multiply();
+        break;
+      case "divide-button":
+        return divide();
+        break;
+    }
   } else {
-    return array[0] / array[1];
+    console.log("hi!");
+    currentOperation.operator = this.id;
+  }
+  return currentOperation.secondNumber;
+}
+
+function add() {
+  return (
+    parseFloat(currentOperation.firstNumber) +
+    parseFloat(currentOperation.secondNumber)
+  );
+}
+
+function subtract() {
+  return currentOperation.firstNumber - currentOperation.secondNumber;
+}
+function multiply() {
+  return currentOperation.firstNumber * currentOperation.secondNumber;
+}
+
+function divide() {
+  if (currentOperation.secondNumber === 0) {
+    alert("Error - Cannot divide by 0");
+  } else {
+    return currentOperation.firstNumber / currentOperation.secondNumber;
   }
 }
 
-function operate(mathArray) {
-  switch (mathArray[2]) {
-    case "plus":
-      console.log(add(mathArray));
-      break;
-    case "minus":
-      console.log(subtract(mathArray));
-      break;
-    case "multiply":
-      console.log(multiply(mathArray));
-      break;
-    case "divide":
-      console.log(divide(mathArray));
-      break;
-    // case "exponent":
-    //   break;
-  }
-}
-
+//button event listener
 calcButtons.forEach((btn) => btn.addEventListener("click", inputRecorder));
